@@ -171,8 +171,11 @@
         }
     }
     document.onkeydown=key_handler;
-    for(let i=1;i<=1000;i++){
-        $('#q'+i+'.inputtext').on('focus',function(){document.onkeydown=null;});
-        $('#q'+i+'.inputtext').on('blur',function(){document.onkeydown=key_handler;});
-    }
+    // if any of the textareas is on focus, don't listen to keydown. Otherwise, listen to keydown.
+    $('textarea').focus(function() {
+        document.onkeydown=null;
+    });
+    $('textarea').blur(function() {
+        document.onkeydown=key_handler;
+    });
 })();
