@@ -146,6 +146,7 @@
     }
     change_problem_id(0, false);
 
+    /*
     $(document).keydown(function(e) {
         // console.log(e.keyCode);
         // when a key is pressed, click the corresponding answer according to the keymap
@@ -166,5 +167,31 @@
         if (e.keyCode == submit_key) {
             $('#submit_button').click();
         }
-    });
+    });*/
+    var key_handler=function(e) {
+        // console.log(e.keyCode);
+        // when a key is pressed, click the corresponding answer according to the keymap
+        if (e.keyCode in keymap) {
+            if(click_answer(problem_id, keymap[e.keyCode])) {
+                change_problem_id(1, false);
+            }
+        }
+        // when next_key is pressed, increase the problem id by 1
+        if (e.keyCode == next_key) {
+            change_problem_id(1, true);
+        }
+        // when previous_key is pressed, decrease the problem id by 1
+        if (e.keyCode == previous_key) {
+            change_problem_id(-1, true);
+        }
+        // when submit_key is pressed, submit the form
+        if (e.keyCode == submit_key) {
+            $('#submit_button').click();
+        }
+    }
+    document.onkeydown=key_handler;
+    for(let i=1;i<=1000;i++){
+        $('#q'+i+'.inputtext').on('focus',function(){document.onkeydown=null;});
+        $('#q'+i+'.inputtext').on('blur',function(){document.onkeydown=key_handler;});
+    }
 })();
