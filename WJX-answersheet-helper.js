@@ -25,6 +25,7 @@
 
     var student_number = '1024';
     var student_name = 'stargazerZJ';
+    var question_cnt=$(".div_title_question").length;
 
     //fill in student number and name
     $('#q1').val(student_name);
@@ -92,7 +93,7 @@
 
     function display_intro() {
         var copyright_msg = 'WJX answersheet helper by StargazerZJ.<br>';
-        var acknowledge_msg = 'Thanks for lxy\'s help and Githib Copilot.<br>';
+        var acknowledge_msg = 'Thanks for lxy\'s help and Github Copilot.<br>';
         var help_msg =
             'Press ' + ord(previous_key) + ' to go to previous problem.<br>' +
             'Press ' + ord(next_key) + ' to go to next problem.<br>' +
@@ -145,29 +146,7 @@
         }
     }
     change_problem_id(0, false);
-
-    /*
-    $(document).keydown(function(e) {
-        // console.log(e.keyCode);
-        // when a key is pressed, click the corresponding answer according to the keymap
-        if (e.keyCode in keymap) {
-            if(click_answer(problem_id, keymap[e.keyCode])) {
-                change_problem_id(1, false);
-            }
-        }
-        // when next_key is pressed, increase the problem id by 1
-        if (e.keyCode == next_key) {
-            change_problem_id(1, true);
-        }
-        // when previous_key is pressed, decrease the problem id by 1
-        if (e.keyCode == previous_key) {
-            change_problem_id(-1, true);
-        }
-        // when submit_key is pressed, submit the form
-        if (e.keyCode == submit_key) {
-            $('#submit_button').click();
-        }
-    });*/
+    
     var key_handler=function(e) {
         // console.log(e.keyCode);
         // when a key is pressed, click the corresponding answer according to the keymap
@@ -177,11 +156,11 @@
             }
         }
         // when next_key is pressed, increase the problem id by 1
-        if (e.keyCode == next_key) {
+        if (e.keyCode == next_key && problem_id < question_cnt) {
             change_problem_id(1, true);
         }
         // when previous_key is pressed, decrease the problem id by 1
-        if (e.keyCode == previous_key) {
+        if (e.keyCode == previous_key && problem_id > 1) {
             change_problem_id(-1, true);
         }
         // when submit_key is pressed, submit the form
@@ -190,8 +169,11 @@
         }
     }
     document.onkeydown=key_handler;
-    for(let i=1;i<=1000;i++){
-        $('#q'+i+'.inputtext').on('focus',function(){document.onkeydown=null;});
-        $('#q'+i+'.inputtext').on('blur',function(){document.onkeydown=key_handler;});
-    }
+    //if any textarea is focused, don't listen to keydown, otherwise, listen to keydown
+    $('textarea').focus(function() {
+        document.onkeydown=null;
+    });
+    $('textarea').blur(function() {
+        document.onkeydown=key_handler;
+    });
 })();
