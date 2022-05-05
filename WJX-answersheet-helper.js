@@ -23,6 +23,8 @@
     //     document.getElementsByTagName('head')[0].appendChild(script);
     // })();
 
+	document.querySelectorAll("textarea").forEach(i=>i.onpaste=null);
+
     var student_number = '1024';
     var student_name = 'stargazerZJ';
     var question_cnt=$(".div_title_question").length;
@@ -146,7 +148,7 @@
         }
     }
     change_problem_id(0, false);
-    
+
     var key_handler=function(e) {
         // console.log(e.keyCode);
         // when a key is pressed, click the corresponding answer according to the keymap
@@ -169,6 +171,7 @@
         }
     }
     document.onkeydown=key_handler;
+  
     //if any textarea is focused, don't listen to keydown, otherwise, listen to keydown
     $('textarea').focus(function() {
         document.onkeydown=null;
