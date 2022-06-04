@@ -25,10 +25,10 @@
 
 	document.querySelectorAll("textarea").forEach(i=>i.onpaste=null);
 
-    var student_number = '1024';
-    var student_name = 'stargazerZJ';
-    var question_cnt=$(".div_title_question").length;
-
+    var student_number = '';
+    var student_name = '';
+    var question_cnt=Math.max($(".div_title_question").length,$(".field-label").length);
+    console.log("question count:",question_cnt)
     //fill in student number and name
     $('#q1').val(student_name);
     $('#q2').val(student_number);
@@ -112,6 +112,10 @@
 
     function click_answer(problem, answer) {
         var answer_button = $("a[rel='q" + problem + "_" + answer + "']")
+        if(answer_button.length==0){
+             answer_button = $("#div"+(problem)+" > div.ui-controlgroup.column1 > div:nth-child("+answer+")");
+        }
+        console.log("click->  ","#div"+(problem)+" > div.ui-controlgroup.column1 > div:nth-child("+answer+")");
         // $('#q' + problem + '_' + answer)
         // if answer_button exists
         if(answer_button.length > 0) {
@@ -138,6 +142,9 @@
         problem_id += delta;
         // highlight this div using a frame
         $('#div' + problem_id).css('border', '2px solid red');
+        //if($('#q'+(problem_id)).length>0){
+            //$('#q'+(problem_id)).focus();
+        //}
         if(log) {
             window.scroll(0,$('#div' + problem_id).offset().top);
             var prompt_msg = 'problem ' + (problem_id - problem_shift) + ': ';
@@ -159,10 +166,12 @@
         }
         // when next_key is pressed, increase the problem id by 1
         if (e.keyCode == next_key && problem_id < question_cnt) {
+            console.log("NEXT!!!");
             change_problem_id(1, true);
         }
         // when previous_key is pressed, decrease the problem id by 1
         if (e.keyCode == previous_key && problem_id > 1) {
+            console.log("PREV!!!");
             change_problem_id(-1, true);
         }
         // when submit_key is pressed, submit the form
@@ -171,7 +180,7 @@
         }
     }
     document.onkeydown=key_handler;
-  
+
     //if any textarea is focused, don't listen to keydown, otherwise, listen to keydown
     $('textarea').focus(function() {
         document.onkeydown=null;
