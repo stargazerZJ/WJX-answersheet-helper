@@ -25,8 +25,8 @@
 
 	document.querySelectorAll("textarea").forEach(i=>i.onpaste=null);
 
-    var student_number = '李翔宇';
-    var student_name = '1063';
+    var student_number = '';
+    var student_name = '';
     var question_cnt=Math.max($(".div_title_question").length,$(".field-label").length);
     console.log("question count:",question_cnt)
     //fill in student number and name
